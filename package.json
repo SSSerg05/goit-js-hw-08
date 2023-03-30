@@ -17,7 +17,7 @@
   "bugs": {
     "url": "https://github.com/SSSerg05/goit-js-hw-08/issues"
   },
-  "homepage": "https://github.com/SSSerg05/goit-js-hw-08#readme",
+  "homepage": "https://ssserg05.github.io/goit-js-hw-08/",
   "dependencies": {
     "@vimeo/player": "^2.18.0",
     "lodash.throttle": "^4.1.1",
