@@ -20,7 +20,30 @@ const load = key => {
   }
 };
 
+/// for work with localStorage
+// Delete key
+const remove = key => {
+  try {
+    localStorage.removeItem(key);
+    return true;
+  } catch (error) {
+    console.error("Delete key state error: ", error.message);
+  }
+};
+
+/// for work with localStorage
+// Clear
+const clear = () => {
+  try {
+    localStorage.clear();
+  } catch (error) {
+    console.error("Clear state error: ", error.message);
+  }
+};
+
 export default {
   save,
   load,
+  clear,
+  remove,
 };
