@@ -1,36 +1,10 @@
 import Player from '@vimeo/player';
-let throttle = require('lodash.throttle');
+import throttle from 'lodash.throttle'
+import storage from './storage'
 
-/// for work with localStorage
-// Save
-const save = (key, value) => {
-  try {
-    const serializedState = JSON.stringify(value);
-    localStorage.setItem(key, serializedState);
-  } catch (error) {
-    console.error("Set state error: ", error.message);
-  }
-};
+const KEY_STORAGE = "videoplayer-current-time";
 
-/// for work with localStorage
-// Load
-const load = key => {
-  try {
-    const serializedState = localStorage.getItem(key);
-    return serializedState === null ? undefined : JSON.parse(serializedState);
-  } catch (error) {
-    console.error("Get state error: ", error.message);
-  }
-};
-
-export default {
-  save,
-  load,
-};
-
-
-
-let playingTime = load("videoplayer-current-time");
+let playingTime = storage.load(KEY_STORAGE);
 if (!playingTime) { 
   playingTime = 0;
 }
@@ -42,9 +16,8 @@ const onGetTime = function(data) {
     // data is an object containing properties specific to that event
   player.getCurrentTime().then(function (seconds) {
     // seconds = the current playback position
-    console.log(seconds);
-
-   save('videoplayer-current-time', seconds);
+    // console.log(seconds);
+    storage.save(KEY_STORAGE, seconds);
 
   }).catch(function(error) {
     // an error occurred
@@ -69,7 +42,7 @@ const onSetTime = function(data) {
 };
 
 
-player.on('timeupdate', onGetTime, 1000);
+player.on('timeupdate', throttle(onGetTime, 1000));
 player.on('play', onSetTime(playingTime));
 
 
