@@ -21,12 +21,7 @@ if (objForm) {
 const onInput = (event) => { 
   const { name, value } = event.target;
 
-  if (name === 'email') {
-    objForm.email = value;
-  } else if (name === 'message') { 
-    objForm.message = value;
-  }
-
+  objForm[name] = value;
   storage.save(KEY_STORAGE, objForm)
 }
 
