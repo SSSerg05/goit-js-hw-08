@@ -19,11 +19,11 @@ if (objForm) {
 
 // перевірка подї на ввод даних
 const onInput = (event) => { 
-  const value = event.target.value;
+  const { name, value } = event.target;
 
-  if (event.target.nodeName === 'INPUT') {
+  if (name === 'email') {
     objForm.email = value;
-  } else if (event.target.nodeName === 'TEXTAREA') { 
+  } else if (name === 'message') { 
     objForm.message = value;
   }
 
