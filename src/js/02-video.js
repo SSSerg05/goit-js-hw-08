@@ -4,11 +4,6 @@ import storage from './storage'
 
 const KEY_STORAGE = "videoplayer-current-time";
 
-let playingTime = storage.load(KEY_STORAGE);
-if (!playingTime) { 
-  playingTime = 0;
-}
-  
 const iframe = document.querySelector('#vimeo-player')
 const player = new Player(iframe);
 
@@ -24,9 +19,9 @@ const onGetTime = function(data) {
   });
 };
 
-const onSetTime = function(data) {
+const onSetTime = function(time) {
     // data is an object containing properties specific to that event
-  player.setCurrentTime(data).then(function(seconds) {
+  player.setCurrentTime(time).then(function(seconds) {
     // seconds = the actual time that the player seeked to
   }).catch(function(error) {
     switch (error.name) {
@@ -41,8 +36,15 @@ const onSetTime = function(data) {
   });
 };
 
+const setTime = () => {
+  let playingTime = storage.load(KEY_STORAGE);
+  if (!playingTime) { 
+    playingTime = 0;
+  }
+  onSetTime(playingTime);
+}
 
 player.on('timeupdate', throttle(onGetTime, 1000));
-player.on('play', onSetTime(playingTime));
+player.on('play', setTime);
 
 
